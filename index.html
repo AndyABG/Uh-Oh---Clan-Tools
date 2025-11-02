@@ -44,21 +44,6 @@
       color: white;
       font-size: 1rem;
     }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background: #ffcc00;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover {
-      background: #ffdb4d;
-    }
     .result {
       margin-top: 20px;
       padding: 15px;
@@ -67,6 +52,10 @@
       font-size: 1rem;
       white-space: pre-line;
       line-height: 1.5;
+      transition: all 0.2s ease-in-out;
+    }
+    .faded {
+      opacity: 0.6;
     }
     footer {
       margin-top: 30px;
@@ -91,9 +80,7 @@
     <label for="potions">Builder Potions:</label>
     <input type="number" id="potions" placeholder="1" min="0">
 
-    <button onclick="calculate()">Calculate</button>
-
-    <div class="result" id="result"></div>
+    <div class="result faded" id="result">Start typing to calculate...</div>
   </div>
 
   <footer>
@@ -101,11 +88,26 @@
   </footer>
 
   <script>
+    const inputs = document.querySelectorAll("input");
+    const resultDiv = document.getElementById("result");
+
+    inputs.forEach(input => {
+      input.addEventListener("input", calculate);
+    });
+
     function calculate() {
       const days = parseInt(document.getElementById('days').value) || 0;
       const hours = parseInt(document.getElementById('hours').value) || 0;
       const minutes = parseInt(document.getElementById('minutes').value) || 0;
       const potions = parseInt(document.getElementById('potions').value) || 0;
+
+      if (days + hours + minutes + potions === 0) {
+        resultDiv.textContent = "Start typing to calculate...";
+        resultDiv.classList.add("faded");
+        return;
+      }
+
+      resultDiv.classList.remove("faded");
 
       const totalBuildMinutes = (days * 24 * 60) + (hours * 60) + minutes;
       const potionProgressMinutes = potions * 10 * 60; // 10 hours per potion
@@ -126,7 +128,7 @@
         resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
       }
 
-      document.getElementById('result').textContent = resultText;
+      resultDiv.textContent = resultText;
     }
   </script>
 </body>
