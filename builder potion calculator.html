@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder Potion Calculator</title>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #0e0e11;
+      color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #ffcc00;
+    }
+    .calculator {
+      background: #1b1b1f;
+      border-radius: 16px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      background: #2c2c32;
+      color: white;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #ffcc00;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ffdb4d;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #2c2c32;
+      border-radius: 10px;
+      font-size: 1rem;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h1>⚒️ Builder Potion Calculator</h1>
+  <div class="calculator">
+    <label for="days">Build Days:</label>
+    <input type="number" id="days" placeholder="0" min="0">
+
+    <label for="hours">Build Hours:</label>
+    <input type="number" id="hours" placeholder="0" min="0" max="23">
+
+    <label for="minutes">Build Minutes:</label>
+    <input type="number" id="minutes" placeholder="0" min="0" max="59">
+
+    <label for="potions">Builder Potions:</label>
+    <input type="number" id="potions" placeholder="1" min="0">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const days = parseInt(document.getElementById('days').value) || 0;
+      const hours = parseInt(document.getElementById('hours').value) || 0;
+      const minutes = parseInt(document.getElementById('minutes').value) || 0;
+      const potions = parseInt(document.getElementById('potions').value) || 0;
+
+      const totalBuildMinutes = (days * 24 * 60) + (hours * 60) + minutes;
+      const potionProgressMinutes = potions * 10 * 60; // 10 hours per potion
+      const potionRealMinutes = potions * 60; // 1 real hour per potion
+
+      let resultText = `Original build time: ${days}d ${hours}h ${minutes}m\nBuilder potions: ${potions}\n\n`;
+
+      if (totalBuildMinutes <= potionProgressMinutes) {
+        const realMinutes = totalBuildMinutes / 10;
+        const rh = Math.floor(realMinutes / 60);
+        const rm = Math.round(realMinutes % 60);
+        resultText += `Build finishes during potion effect.\n⏱️ Real time to complete: ${rh}h ${rm}m`;
+      } else {
+        const remainingMinutes = totalBuildMinutes - potionProgressMinutes;
+        const totalRealMinutes = potionRealMinutes + remainingMinutes;
+        const rh = Math.floor(totalRealMinutes / 60);
+        const rm = Math.round(totalRealMinutes % 60);
+        resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes/60)}h ${remainingMinutes%60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
+      }
+
+      document.getElementById('result').textContent = resultText;
+    }
+  </script>
+</body>
+</html>
