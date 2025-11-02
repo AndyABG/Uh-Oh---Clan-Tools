@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Builder Potion Calculator</title>
   <style>
     body {
@@ -19,6 +19,7 @@
     h1 {
       margin-bottom: 1rem;
       color: #ffcc00;
+      text-align: center;
     }
     .calculator {
       background: #1b1b1f;
@@ -26,7 +27,7 @@
       padding: 20px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     label {
       display: block;
@@ -53,6 +54,7 @@
       font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
+      transition: 0.2s;
     }
     button:hover {
       background: #ffdb4d;
@@ -64,6 +66,13 @@
       border-radius: 10px;
       font-size: 1rem;
       white-space: pre-line;
+      line-height: 1.5;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
     }
   </style>
 </head>
@@ -86,6 +95,10 @@
 
     <div class="result" id="result"></div>
   </div>
+
+  <footer>
+    Made by ⚒️ Clash of Clans fans — hosted on GitHub Pages
+  </footer>
 
   <script>
     function calculate() {
@@ -110,7 +123,7 @@
         const totalRealMinutes = potionRealMinutes + remainingMinutes;
         const rh = Math.floor(totalRealMinutes / 60);
         const rm = Math.round(totalRealMinutes % 60);
-        resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes/60)}h ${remainingMinutes%60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
+        resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
       }
 
       document.getElementById('result').textContent = resultText;
