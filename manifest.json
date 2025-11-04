@@ -1,0 +1,15 @@
+{
+  "name": "Uh Oh Clan Calculator",
+  "short_name": "Uh Oh Clan",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0e0e11",
+  "theme_color": "#0e0e11",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
