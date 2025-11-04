@@ -2,25 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Uh Oh Clan | Builder Potion Calculator</title>
+
+  <!-- iPhone app-like display -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Uh Oh Clan">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- General PWA support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0e0e11">
+
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
       font-family: "Inter", sans-serif;
       background: #0e0e11;
       color: #f5f5f5;
+      height: 100%;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
       padding: 20px;
+      box-sizing: border-box;
     }
     header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 1rem;
+      margin-top: env(safe-area-inset-top);
     }
     header img {
       width: 48px;
@@ -69,10 +89,12 @@
       opacity: 0.6;
     }
     footer {
-      margin-top: 30px;
+      margin-top: auto;
+      margin-bottom: env(safe-area-inset-bottom);
       font-size: 0.85rem;
       color: #888;
       text-align: center;
+      padding-top: 20px;
     }
   </style>
 </head>
