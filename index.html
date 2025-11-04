@@ -125,48 +125,63 @@
   </footer>
 
   <script>
-    const inputs = document.querySelectorAll("input");
-    const resultDiv = document.getElementById("result");
+  const inputs = document.querySelectorAll("input");
+  const resultDiv = document.getElementById("result");
 
-    inputs.forEach(input => {
-      input.addEventListener("input", calculate);
+  inputs.forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  function calculate() {
+    const days = parseInt(document.getElementById('days').value) || 0;
+    const hours = parseInt(document.getElementById('hours').value) || 0;
+    const minutes = parseInt(document.getElementById('minutes').value) || 0;
+    const potions = parseInt(document.getElementById('potions').value) || 0;
+
+    if (days + hours + minutes + potions === 0) {
+      resultDiv.textContent = "Start typing to calculate...";
+      resultDiv.classList.add("faded");
+      return;
+    }
+
+    resultDiv.classList.remove("faded");
+
+    const totalBuildMinutes = (days * 24 * 60) + (hours * 60) + minutes;
+    const potionProgressMinutes = potions * 10 * 60;
+    const potionRealMinutes = potions * 60;
+
+    let realMinutes = 0;
+    let resultText = `Original build time: ${days}d ${hours}h ${minutes}m\nBuilder potions: ${potions}\n\n`;
+
+    if (totalBuildMinutes <= potionProgressMinutes) {
+      realMinutes = totalBuildMinutes / 10;
+      const rh = Math.floor(realMinutes / 60);
+      const rm = Math.round(realMinutes % 60);
+      resultText += `Build finishes during potion effect.\n⏱️ Real time to complete: ${rh}h ${rm}m`;
+    } else {
+      const remainingMinutes = totalBuildMinutes - potionProgressMinutes;
+      realMinutes = potionRealMinutes + remainingMinutes;
+      const rh = Math.floor(realMinutes / 60);
+      const rm = Math.round(realMinutes % 60);
+      resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
+    }
+
+    // Calculate completion timestamp
+    const finishTime = new Date(Date.now() + realMinutes * 60000);
+    const finishTimeString = finishTime.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const finishDateString = finishTime.toLocaleDateString([], {
+      month: 'short',
+      day: 'numeric'
     });
 
-    function calculate() {
-      const days = parseInt(document.getElementById('days').value) || 0;
-      const hours = parseInt(document.getElementById('hours').value) || 0;
-      const minutes = parseInt(document.getElementById('minutes').value) || 0;
-      const potions = parseInt(document.getElementById('potions').value) || 0;
+    resultText += `\n🕒 Finishes at ${finishTimeString} on ${finishDateString} (local time)`;
 
-      if (days + hours + minutes + potions === 0) {
-        resultDiv.textContent = "Start typing to calculate...";
-        resultDiv.classList.add("faded");
-        return;
-      }
+    resultDiv.textContent = resultText;
+  }
+</script>
 
-      resultDiv.classList.remove("faded");
-
-      const totalBuildMinutes = (days * 24 * 60) + (hours * 60) + minutes;
-      const potionProgressMinutes = potions * 10 * 60;
-      const potionRealMinutes = potions * 60;
-
-      let resultText = `Original build time: ${days}d ${hours}h ${minutes}m\nBuilder potions: ${potions}\n\n`;
-
-      if (totalBuildMinutes <= potionProgressMinutes) {
-        const realMinutes = totalBuildMinutes / 10;
-        const rh = Math.floor(realMinutes / 60);
-        const rm = Math.round(realMinutes % 60);
-        resultText += `Build finishes during potion effect.\n⏱️ Real time to complete: ${rh}h ${rm}m`;
-      } else {
-        const remainingMinutes = totalBuildMinutes - potionProgressMinutes;
-        const totalRealMinutes = potionRealMinutes + remainingMinutes;
-        const rh = Math.floor(totalRealMinutes / 60);
-        const rm = Math.round(totalRealMinutes % 60);
-        resultText += `Total potion progress = ${potions * 10}h\nRemaining build time = ${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m\n\n⏱️ Total real time = ${rh}h ${rm}m`;
-      }
-
-      resultDiv.textContent = resultText;
-    }
-  </script>
 </body>
 </html>
